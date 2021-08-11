@@ -1,6 +1,5 @@
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
-const yarg = require('yargs');
 
 const search = process.argv.splice(2);
 
@@ -19,7 +18,6 @@ if (search.length === 0) {
       }
 
       console.log(geoData.location);
-      // console.log(foreData);
     });
   });
 }

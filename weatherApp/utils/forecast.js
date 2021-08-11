@@ -5,15 +5,17 @@ const forecast = (lat, lon, callback) => {
   +'$units=f';
 
   request({ url: url, json: true }, (error, response) => {
+    const { lat, lon, location } = response.body.location;
+
     if (error) {
       callback('Low Level, Check Network');
     } else if (response.body.error) {
       callback(response.body.error.type);
     } else {
       callback(undefined, {
-        latitude: response.body.location.lat,
-        longitude: response.body.location.lon,
-        location: response.body.location.name,
+        lat,
+        lon,
+        location,
       });
     }
     console.log(
