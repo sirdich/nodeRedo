@@ -7,15 +7,19 @@ const geocode = (address, callback) => {
     '.json?access_token=pk.eyJ1Ijoic2lyZGljaG9sYXMiLCJhIjoiY2tzNXplaTZlMGx2aDJvczMzcGZ4ZTJ5ZCJ9.e4aqIgtLMuTKoI601eqjng&limit=1';
 
   request({ url: url, json: true }, (error, response) => {
+    const { message } = response.body;
+    const { 1: latitude, 0: longitude } = response.body.features[0].center;
+    const { place_name } = response.body.features[0];
+
     if (error) {
       callback('Unable to connect', undefined);
-    } else if (response.body.message) {
-      console.log(response.body.message);
+    } else if (message) {
+      console.log(message);
     } else {
       callback(undefined, {
-        latitude: response.body.features[0].center[1],
-        longitude: response.body.features[0].center[0],
-        location: response.body.features[0].place_name,
+        latitude,
+        longitude,
+        place_name,
       });
     }
   });
