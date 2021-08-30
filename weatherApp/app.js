@@ -1,25 +1,23 @@
-const geocode = require('./utils/geocode');
-const forecast = require('./utils/forecast');
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
 
-const search = process.argv.splice(2);
+const address = process.argv[2]
 
-if (search.length === 0) {
-  console.log('Please provide a search');
+if (!address) {
+    console.log('Please provide an address')
 } else {
-  //utils/geocode.js
-  geocode(search, (error, geoData) => {
-    if (error) {
-      return console.log(error);
-    }
-    //utils/forecast.js
-    forecast(geoData.latitude, geoData.longitude, (error, foreData) => {
-      if (error) {
-        return console.log(error);
-      }
+    geocode(address, (error, { latitude, longitude, location }) => {
+        if (error) {
+            return console.log(error)
+        }
 
-      console.log(geoData.place_name);
+        forecast(latitude, longitude, (error, forecastData) => {
+            if (error) {
+                return console.log(error)
+            }
 
-      console.log(geoData.location);
-    });
-  });
+            console.log(location)
+            console.log(forecastData)
+        })
+    })
 }
